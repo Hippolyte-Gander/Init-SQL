@@ -120,19 +120,74 @@ WHERE id_personnage NOT IN (
     WHERE p.nom_potion = 'Magique'
 )
 
+----------------------------------------------------------------------
+
 -- A. Ajoutez le personnage suivant : Champdeblix, agriculteur résidant à la ferme Hantassion de Rotomagus.
+INSERT INTO personnage (nom_personnage, id_lieu)
+VALUES ('Champdeblix', '6')
 
 
 -- B. Autorisez Bonemine à boire de la potion magique, elle est jalouse d'Iélosubmarine...
-
+INSERT INTO autoriser_boire (id_potion, id_personnage)
+VALUES (
+    (SELECT po.id_potion
+    FROM potion po
+    WHERE po.nom_potion = 'Magique'),
+    (SELECT pe.id_personnage
+    FROM personnage pe
+    WHERE pe.nom_personnage = 'Bonemine')
+)
 
 -- C. Supprimez les casques grecs qui n'ont jamais été pris lors d'une bataille.
-
+DELETE FROM casque c
+WHERE 'id' = (SELECT c.id_casque
+    FROM casque c
+    INNER JOIN prendre_casque pc ON pc.id_casque = c.id_casque
+    WHERE id_casque NOT IN (
+        SELECT pc.id_casque
+        FROM prendre_casque pc
+        INNER JOIN casque c ON c.id_casque = pc.id_casque
+        INNER JOIN type_casque tc ON tc.id_type_casque = c.id_type_casque
+        WHERE tc.id_type_casque <> 2
+    ))
 
 -- D. Modifiez l'adresse de Zérozérosix : il a été mis en prison à Condate.
-
+UPDATE personnage p
+SET id_lieu = (
+    SELECT l.id_lieu
+    FROM personnage p
+    INNER JOIN lieu l ON l.id_lieu = p.id_lieu
+    WHERE l.nom_lieu = 'Condate'
+)
 
 -- E. La potion 'Soupe' ne doit plus contenir de persil.
-
+DELETE FROM composer c
+WHERE c.id_potion = (
+    SELECT p.id_potion
+    FROM potion p
+    INNER JOIN composer c ON p.id_potion = c.id_potion
+    WHERE id_ingredient = (
+        SELECT i.id_ingredient
+        FROM ingredient i
+        WHERE i.nom_ingredient = 'Persil'
+    )
+)
 
 -- F. Obélix s'est trompé : ce sont 42 casques Weisenau, et non Ostrogoths, qu'il a pris lors de la bataille 'Attaque de la banque postale'. Corrigez son erreur !
+UPDATE prendre_casque pc
+SET pc.id_casque = 
+    (SELECT c.id_casque
+    FROM casque c
+    WHERE c.nom_casque = 'Weisenau'
+    )
+WHERE pc.id_bataille =
+    (SELECT b.id_bataille
+    FROM bataille b
+    WHERE b.nom_bataille = 'Attaque de la banque postale'
+    )
+AND pc.qte = 42
+AND pc.id_casque =
+    (SELECT c.id_casque
+    FROM casque c
+    WHERE c.nom_casque = 'Ostrogoth'
+    )
