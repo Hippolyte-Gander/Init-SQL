@@ -101,8 +101,21 @@ HAVING COUNT(p.id_lieu) = (SELECT MAX(nbHab)
                             GROUP BY l.nom_lieu)
                             AS subquery)
 
-
 -- 14. Nom des personnages qui n'ont jamais bu aucune potion.
-
+SELECT p.nom_personnage
+FROM personnage p
+WHERE id_personnage NOT IN (
+    SELECT id_personnage
+    FROM boire b
+    WHERE b.dose_boire > 0
+)
 
 -- 15. Nom du / des personnages qui n'ont pas le droit de boire de la potion 'Magique'.
+SELECT p.nom_personnage
+FROM personnage p
+WHERE id_personnage NOT IN (
+    SELECT id_personnage
+    FROM autoriser_boire ab
+    INNER JOIN potion p ON p.id_potion = ab.id_potion
+    WHERE p.nom_potion = 'Magique'
+)
