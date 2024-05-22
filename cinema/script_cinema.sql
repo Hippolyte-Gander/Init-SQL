@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS `casting` (
   CONSTRAINT `FK_AUTO_ROLE` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-/*!40000 ALTER TABLE `autoriser_boire` DISABLE KEYS */;
-INSERT INTO `autoriser_boire` (`id_potion`, `id_personnage`) VALUES
+/*!40000 ALTER TABLE `casting` DISABLE KEYS */;
+INSERT INTO `casting` (`id_film`, `id_acteur`, `id_role`) VALUES
 	(1, 4),
 	(9, 5),
 	(1, 6),
@@ -54,35 +54,27 @@ INSERT INTO `autoriser_boire` (`id_potion`, `id_personnage`) VALUES
 	(7, 39),
 	(14, 42),
 	(1, 44);
-/*!40000 ALTER TABLE `autoriser_boire` ENABLE KEYS */;
+/*!40000 ALTER TABLE `casting` ENABLE KEYS */;
 
-CREATE TABLE IF NOT EXISTS `bataille` (
-  `id_bataille` int(11) NOT NULL AUTO_INCREMENT,
-  `nom_bataille` varchar(50) COLLATE utf8_bin NOT NULL,
-  `date_bataille` date NOT NULL,
-  `id_lieu` int(11) NOT NULL,
-  PRIMARY KEY (`id_bataille`),
-  KEY `FK_BATAILLE_LIEU` (`id_lieu`),
-  CONSTRAINT `FK_BATAILLE_LIEU` FOREIGN KEY (`id_lieu`) REFERENCES `lieu` (`id_lieu`)
+CREATE TABLE IF NOT EXISTS `personne` (
+  `id_personne` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_personne` varchar(50) COLLATE utf8_bin NOT NULL,
+  `prenom_personne` varchar(50) COLLATE utf8_bin NOT NULL,
+  `sexe_personne` varchar(50) COLLATE utf8_bin NOT NULL,
+  `date_naissance` date NOT NULL,
+  PRIMARY KEY (`id_personne`),
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*!40000 ALTER TABLE `bataille` DISABLE KEYS */;
-INSERT INTO `bataille` (`id_bataille`, `nom_bataille`, `date_bataille`, `id_lieu`) VALUES
-	(1, 'Bataille du village gaulois', '0050-11-30', 1),
-	(2, 'Anniversaire d\'Obélix', '0050-07-08', 2),
-	(3, 'Raid gaulois sur Petibonum', '0050-04-25', 5),
-	(4, 'Siège d\'Alesia', '0052-05-01', 16),
-	(5, 'Bataille de Gergovie', '0052-03-26', 17),
-	(6, 'Rapt de druides', '0050-01-22', 7),
-	(7, 'Raid gaulois sur Aquarium', '0050-08-06', 4),
-	(8, 'Bagarre du siècle', '0050-02-25', 8),
-	(9, 'Attaque de la banque postale', '0050-06-30', 12),
-	(10, 'Raid gaulois sur Laudanum', '0050-09-20', 3),
-	(11, 'Attaque du bateau pirate', '0050-03-10', 10),
-	(12, 'Invasion de la Bretagne', '0050-04-04', 10),
-	(13, 'Bataille des cinq armées', '0050-09-21', 18),
-	(14, 'Percée de Divodurum', '0050-01-30', 11),
-	(15, 'Embuscade de la rue Tabaga', '0050-04-02', 9);
+INSERT INTO `personne` (`id_personne`, `nom_personne`, `prenom_personne`, `sexe_personne`, `date_naissance`) VALUES
+	(1, 'Spielberg', 'Steven','homme', 1948-12-18),
+	(2, 'Lucas', 'George','homme', 1944-05-14),
+	(3, 'Nolan', 'Christopher','homme', 1970-07-30),
+	(4, 'Tarantino ', 'Quentin ','homme', 1963-03-27),
+	(5, 'Scorsese ', 'Martin ','homme', 1942-11-17),
+	(6, 'Cameron ', 'James ','homme', 1954-08-16),
+	(7, 'Scott ', 'Ridley ','homme', 1937-11-30),
+	(8, 'Villeneuve ', 'Denis ','homme', 1967-10-03),
 /*!40000 ALTER TABLE `bataille` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `boire` (
