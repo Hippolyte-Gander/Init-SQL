@@ -1,6 +1,57 @@
 CREATE DATABASE IF NOT EXISTS `cinema` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `cinema`;
 
+CREATE TABLE IF NOT EXISTS `personne` (
+  `id_personne` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_personne` varchar(50) COLLATE utf8_bin NOT NULL,
+  `prenom_personne` varchar(50) COLLATE utf8_bin NOT NULL,
+  `sexe_personne` varchar(50) COLLATE utf8_bin NOT NULL,
+  `date_naissance` date NOT NULL,
+  PRIMARY KEY (`id_personne`),
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+/*!40000 ALTER TABLE `personne` DISABLE KEYS */;
+INSERT INTO `personne` (`id_personne`, `nom_personne`, `prenom_personne`, `sexe_personne`, `date_naissance`) VALUES
+	(1, 'Spielberg', 'Steven','homme', 1948-12-18),
+	(2, 'Lucas', 'George','homme', 1944-05-14),
+	(3, 'Nolan', 'Christopher','homme', 1970-07-30),
+	(4, 'Tarantino ', 'Quentin ','homme', 1963-03-27),
+	(5, 'Scorsese ', 'Martin ','homme', 1942-11-17),
+	(6, 'Cameron ', 'James ','homme', 1954-08-16),
+	(7, 'Scott ', 'Ridley ','homme', 1937-11-30),
+	(8, 'Villeneuve ', 'Denis ','homme', 1967-10-03),
+/*!40000 ALTER TABLE `personne` ENABLE KEYS */;
+
+CREATE TABLE IF NOT EXISTS `genre` (
+`id_genre` int(11) NOT NULL AUTO_INCREMENT,
+`nom_genre` varchar(50) COLLATE utf8_bin NOT NULL,
+PRIMARY KEY (`id_genre`),
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+/*!40000 ALTER TABLE `genre` DISABLE KEYS */;
+
+/*!40000 ALTER TABLE `genre` ENABLE KEYS */;
+
+CREATE TABLE IF NOT EXISTS `role` (
+`id_role` int(11) NOT NULL AUTO_INCREMENT,
+`nom_role` varchar(50) COLLATE utf8_bin NOT NULL,
+PRIMARY KEY (`id_role`),
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+
+CREATE TEBLE IF NOT EXISTS `appartient` (
+  `id_genre` int(11) NOT NULL,
+  `id_genre` varchar(50) COLLATE utf8_bin NOT NULL,
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
+
+
+
 CREATE TABLE IF NOT EXISTS `casting` (
   `id_film` int(11) NOT NULL,
   `id_acteur` int(11) NOT NULL,
@@ -16,66 +67,34 @@ CREATE TABLE IF NOT EXISTS `casting` (
 INSERT INTO `casting` (`id_film`, `id_acteur`, `id_role`) VALUES
 	(1, 4),
 	(9, 5),
-	(1, 6),
-	(12, 6),
-	(1, 7),
-	(3, 7),
-	(7, 7),
-	(1, 8),
-	(1, 9),
-	(1, 10),
-	(1, 12),
-	(13, 12),
-	(1, 13),
-	(2, 13),
-	(4, 13),
-	(6, 13),
-	(10, 13),
-	(13, 14),
-	(1, 15),
-	(4, 17),
-	(6, 19),
-	(6, 20),
-	(1, 22),
-	(5, 23),
-	(1, 24),
-	(1, 25),
-	(3, 25),
-	(11, 26),
-	(8, 30),
-	(8, 32),
-	(11, 32),
-	(5, 33),
-	(14, 33),
-	(15, 33),
-	(1, 34),
-	(9, 35),
-	(1, 36),
-	(7, 39),
 	(14, 42),
 	(1, 44);
 /*!40000 ALTER TABLE `casting` ENABLE KEYS */;
 
-CREATE TABLE IF NOT EXISTS `personne` (
-  `id_personne` int(11) NOT NULL AUTO_INCREMENT,
-  `nom_personne` varchar(50) COLLATE utf8_bin NOT NULL,
-  `prenom_personne` varchar(50) COLLATE utf8_bin NOT NULL,
-  `sexe_personne` varchar(50) COLLATE utf8_bin NOT NULL,
-  `date_naissance` date NOT NULL,
-  PRIMARY KEY (`id_personne`),
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-/*!40000 ALTER TABLE `bataille` DISABLE KEYS */;
-INSERT INTO `personne` (`id_personne`, `nom_personne`, `prenom_personne`, `sexe_personne`, `date_naissance`) VALUES
-	(1, 'Spielberg', 'Steven','homme', 1948-12-18),
-	(2, 'Lucas', 'George','homme', 1944-05-14),
-	(3, 'Nolan', 'Christopher','homme', 1970-07-30),
-	(4, 'Tarantino ', 'Quentin ','homme', 1963-03-27),
-	(5, 'Scorsese ', 'Martin ','homme', 1942-11-17),
-	(6, 'Cameron ', 'James ','homme', 1954-08-16),
-	(7, 'Scott ', 'Ridley ','homme', 1937-11-30),
-	(8, 'Villeneuve ', 'Denis ','homme', 1967-10-03),
-/*!40000 ALTER TABLE `bataille` ENABLE KEYS */;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `boire` (
   `id_potion` int(11) NOT NULL,
