@@ -44,12 +44,10 @@ PRIMARY KEY (`id_role`),
 
 CREATE TEBLE IF NOT EXISTS `appartient` (
   `id_genre` int(11) NOT NULL,
-  `id_genre` varchar(50) COLLATE utf8_bin NOT NULL,
-
+  `id_film` int(11) NOT NULL,
+  CONSTRAINT `FK_AUTO_GENRE` FOREIGN KEY (`id_genre`), REFERENCES `genre` (`id_genre`),
+  CONSTRAINT `FK_AUTO_FILM` FOREIGN KEY (`id_film`), REFERENCES `film` (`id_film`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-
-
 
 
 CREATE TABLE IF NOT EXISTS `casting` (
