@@ -1,3 +1,6 @@
+-- Exercice : remplir la base de données
+
+
 ------------------------- PERSONNE -------------------------
 INSERT INTO personne (nom, prenom, sexe, date_naissance) VALUES
 	('Spielberg', 'Steven','homme', '1948-12-18'),
@@ -70,3 +73,20 @@ INSERT INTO casting (id_film, id_acteur, id_role) VALUES
 	(2, 2, 2),
 	(3, 1, 1),
 	(4, 3, 5);
+
+
+
+-- Exercice : réaliser des requêtes
+
+-- a. Informations d’un film (id_film) : titre, année, durée (au format HH:MM) et réalisateur
+
+SELECT f.nom_film, f.annee_sortie,
+		CONCAT(FLOOR(f.duree / 60), ':', LPAD(f.duree % 60, 2, '0')) AS duree_formattee,
+		p.prenom, p.nom
+FROM film f
+INNER JOIN realisateur r ON r.id_realisateur = f.id_realisateur
+INNER JOIN personne p ON p.id_personne = r.id_personne
+WHERE f.nom_film = 'Inception';
+
+-- b. Liste des films dont la durée excède 2h15 classés par durée (du + long au + court)
+
