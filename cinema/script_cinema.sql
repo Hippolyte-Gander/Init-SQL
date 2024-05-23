@@ -75,6 +75,25 @@ INSERT INTO casting (id_film, id_acteur, id_role) VALUES
 	(4, 3, 5);
 
 
+------------------------- Ajouté par la suite -------------------------
+INSERT INTO personne (nom, prenom, sexe, date_naissance) VALUES
+	('Chabat', 'Alain', 'homme', '1958-11-24');
+INSERT INTO genre (nom_genre) VALUES
+	('humour');
+INSERT INTO role (nom_role) VALUES
+	('Jules César');
+INSERT INTO realisateur (id_personne) VALUES
+	(13);
+INSERT INTO acteur (id_personne) VALUES
+	(13);
+INSERT INTO film (id_realisateur, nom_film, annee_sortie, duree, synopsis , note, affiche) VALUES
+	(9, 'Astéric et Obélix Mission Cléopâtre', '2002', 112, "c'est drôle", 5,'');
+INSERT INTO appartient (id_film, id_genre) VALUES
+	(5, 7);
+INSERT INTO casting (id_film, id_acteur, id_role) VALUES
+	(5, 5, 5);
+
+
 
 -- Exercice : réaliser des requêtes
 
@@ -90,3 +109,92 @@ WHERE f.nom_film = 'Inception';
 
 -- b. Liste des films dont la durée excède 2h15 classés par durée (du + long au + court)
 
+SELECT f.nom_film,
+		CONCAT(FLOOR(f.duree / 60), ':', LPAD(f.duree % 60, 2, '0')) AS duree_formattee
+FROM film f
+WHERE f.duree > 135
+ORDER BY f.duree DESC;
+
+-- c. Liste des films d’un réalisateur (en précisant l’année de sortie)
+
+SELECT f.nom_film, f.annee_sortie
+FROM film f
+INNER JOIN realisateur r ON r.id_realisateur = f.id_realisateur
+INNER JOIN personne p ON p.id_personne = r.id_personne
+WHERE p.nom = 'Lucas';
+
+-- d. Nombre de films par genre (classés dans l’ordre décroissant)
+
+SELECT g.nom_genre, COUNT(a.id_genre) AS nbrFilm
+FROM genre g
+INNER JOIN appartient a ON a.id_genre = g.id_genre
+INNER JOIN film f ON f.id_film = a.id_film
+GROUP BY g.nom_genre
+ORDER BY nbrFilm DESC;
+
+-- e. Nombre de films par réalisateur (classés dans l’ordre décroissant)
+
+SELECT p.prenom, p.nom, COUNT(f.id_realisateur) AS nbrFilmRealises
+FROM personne p
+INNER JOIN realisateur r ON r.id_personne = p.id_personne
+INNER JOIN film f ON f.id_realisateur = r.id_realisateur
+GROUP BY p.nom
+ORDER BY nbrFilmRealises DESC;
+
+
+-- f. Casting d’un film en particulier (id_film) : nom, prénom des acteurs + sexe
+
+SELECT p.prenom, p.nom, p.sexe
+FROM personne p
+INNER JOIN acteur a ON a.id_personne = p.id_personne
+INNER JOIN casting c ON c.id_acteur = a.id_acteur
+INNER JOIN film f ON f.id_film = c.id_film
+WHERE f.nom_film = 'Titanic';
+-- fait avec fnom_film mais f.id_film fonctionne aussi
+
+-- g. Films tournés par un acteur en particulier (id_acteur) avec leur rôle et l’année de sortie (du film le plus récent au plus ancien)
+
+SELECT f.nom_film, r.nom_role, f.annee_sortie
+FROM role r
+INNER JOIN casting c ON c.id_role = r.id_role
+INNER JOIN acteur a ON a.id_acteur = c.id_acteur
+INNER JOIN film f ON f.id_film = c.id_film
+WHERE a.id_acteur = '3'
+ORDER BY f.annee_sortie DESC
+
+-- h. Liste des personnes qui sont à la fois acteurs et réalisateurs
+
+SELECT p.prenom, p.nom
+FROM personne p
+INNER JOIN realisateur r ON r.id_personne = p.id_personne
+INNER JOIN acteur a ON a.id_personne = p.id_personne
+WHERE a.id_personne = r.id_personne;
+
+-- i. Liste des films qui ont moins de 5 ans (classés du plus récent au plus ancien)
+
+SELECT f.nom_film, f.annee_sortie
+FROM film f
+WHERE f.annee_sortie >= YEAR(CURDATE()) - 5
+ORDER BY f.annee_sortie DESC;
+
+-- j. Nombre d’hommes et de femmes parmi les acteurs
+
+SELECT p.sexe, COUNT(a.id_acteur) AS nbr
+FROM acteur a
+INNER JOIN personne p ON p.id_personne = a.id_personne
+GROUP BY p.sexe;
+
+-- k. Liste des acteurs ayant plus de 50 ans (âge révolu et non révolu)
+
+SELECT p.prenom, p.nom, p.date_naissance
+FROM personne p
+WHERE TIMESTAMPDIFF(YEAR, p.date_naissance, CURDATE()) > 50; -- on met >= 50 pour l'âge non révolu
+
+-- l. Acteurs ayant joué dans 3 films ou plus
+
+SELECT p.prenom, p.nom, COUNT(c.id_acteur) AS nbrFilms
+FROM personne p
+INNER JOIN acteur a ON a.id_personne = p.id_personne
+INNER JOIN casting c ON c.id_acteur = a.id_acteur
+GROUP BY p.prenom
+HAVING nbrFilms >= 3;
