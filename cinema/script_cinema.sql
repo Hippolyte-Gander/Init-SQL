@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS `cinema` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `cinema`;
 
+
 ------------------------- PERSONNE -------------------------
 CREATE TABLE IF NOT EXISTS `personne` (
   `id_personne` int(11) NOT NULL AUTO_INCREMENT,
@@ -16,11 +17,15 @@ INSERT INTO `personne` (`id_personne`, `nom_personne`, `prenom_personne`, `sexe_
 	('Spielberg', 'Steven','homme', 1948-12-18),
 	('Lucas', 'George','homme', 1944-05-14),
 	('Nolan', 'Christopher','homme', 1970-07-30),
-	('Tarantino ', 'Quentin ','homme', 1963-03-27),
-	('Scorsese ', 'Martin ','homme', 1942-11-17),
-	('Cameron ', 'James ','homme', 1954-08-16),
-	('Scott ', 'Ridley ','homme', 1937-11-30),
-	('Villeneuve ', 'Denis ','homme', 1967-10-03)
+	('Tarantino ', 'Quentin','homme', 1963-03-27),
+	('Scorsese ', 'Martin','homme', 1942-11-17),
+	('Cameron ', 'James','homme', 1954-08-16),
+	('Scott ', 'Ridley','homme', 1937-11-30),
+	('Villeneuve ', 'Denis','homme', 1967-10-03),
+	('McGregor ', 'Ewan Gordon','homme', 1971-03-31),
+	('Worthington ', 'Samuel','homme', 1976-08-02),
+	('DiCaprio ', 'Leonardo','homme', 1974-11-11),
+	('Winslet ', 'Kate','femme', 1975-10-05);
 /*!40000 ALTER TABLE `personne` ENABLE KEYS */;
 
 
@@ -34,11 +39,13 @@ PRIMARY KEY (`id_genre`),
 /*!40000 ALTER TABLE `genre` DISABLE KEYS */;
 INSERT INTO `genre` (`nom_genre`) VALUES
 (`fantastique`),
+(`romance`),
 (`science-fiction`),
 (`space-opera`),
 (`action`),
-(`policier`)
+(`policier`);
 /*!40000 ALTER TABLE `genre` ENABLE KEYS */;
+
 
 ------------------------- FILM -------------------------
 CREATE TABLE IF NOT EXISTS `film` (
@@ -59,7 +66,7 @@ INSERT INTO `film` (`id_realisateur`, `nom_film`, `date_sortie`, `duree`, `synop
 	(6, `Titanic`, `1997`, 194, `à la fin le bateau coule`, 3),
 	(6, `Avatar`, `2009`, 162, `des grands hommes bleus contre des petits hommes`, 5),
 	(2, `Star Wars: Episode I – The Phantom Menace`, `1999`, 136, `vive les sabres lasers`, 5),
-	(3, `Inception`, `2010`, 148, `rien compris, elle tourne ou pas la toupie`, 4)
+	(3, `Inception`, `2010`, 148, `rien compris, à la fin elle tourne ou pas la toupie`, 4);
 /*!40000 ALTER TABLE `film` ENABLE KEYS */;
 
 
@@ -72,14 +79,12 @@ PRIMARY KEY (`id_role`)
 
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
 INSERT INTO `role` (`nom_role`) VALUES
-(`Obiwan Kenobi`),
-(`Jack Sully`),
+(`Obi-wan Kenobi`),
+(`Jake Sully`),
 (`Rose Dewitt Bukater`),
 (`Jack Dawnson`),
-(`Cobb`)
+(`Cobb`);
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
-
-
 
 
 ------------------------- REALISATEUR -------------------------
@@ -108,14 +113,12 @@ CONSTRAINT `FK_AUTO_PERSONNE` FOREIGN KEY (`id_personne`) REFERENCES `personne` 
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*!40000 ALTER TABLE `acteur` DISABLE KEYS */;
-INSERT INTO `casting` (`id_film`, `id_acteur`, `id_role`) VALUES
-	(1, 4),
-	(9, 5),
-	(14, 42),
-	(1, 44);
+INSERT INTO `acteur` (`id_personne`) VALUES
+	(9),
+	(10),
+	(11),
+	(12);
 /*!40000 ALTER TABLE `acteur` ENABLE KEYS */;
-
-
 
 
 ------------------------- APPARTIENT -------------------------
@@ -127,11 +130,11 @@ CREATE TABLE IF NOT EXISTS `appartient` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*!40000 ALTER TABLE `casting` DISABLE KEYS */;
-INSERT INTO `appartient` (`id_genre`, `id_film`) VALUES
-	(1, 4),
-	(9, 5),
-	(14, 42),
-	(1, 44)
+INSERT INTO `appartient` (`id_film`, `id_genre`) VALUES
+	(1, 2),
+	(2, 3),
+	(3, 4),
+	(4, 5);
 /*!40000 ALTER TABLE `casting` ENABLE KEYS */;
 
 
@@ -147,13 +150,12 @@ CREATE TABLE IF NOT EXISTS `casting` (
 
 /*!40000 ALTER TABLE `casting` DISABLE KEYS */;
 INSERT INTO `casting` (`id_film`, `id_acteur`, `id_role`) VALUES
-	(1, 4),
-	(9, 5),
-	(14, 42),
-	(1, 44);
+	(1, 3, 4),
+	(1, 4, 3),
+	(2, 2, 2),
+	(3, 1, 1),
+	(4, 3, 5);
 /*!40000 ALTER TABLE `casting` ENABLE KEYS */;
-
-
 
 
 
