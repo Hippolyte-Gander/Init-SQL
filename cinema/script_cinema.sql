@@ -149,8 +149,7 @@ FROM personne p
 INNER JOIN acteur a ON a.id_personne = p.id_personne
 INNER JOIN casting c ON c.id_acteur = a.id_acteur
 INNER JOIN film f ON f.id_film = c.id_film
-WHERE f.nom_film = 'Titanic';
--- fait avec fnom_film mais f.id_film fonctionne aussi
+WHERE f.nom_film = 'Titanic'; -- fait avec f.nom_film mais f.id_film fonctionne aussi
 
 -- g. Films tournés par un acteur en particulier (id_acteur) avec leur rôle et l’année de sortie (du film le plus récent au plus ancien)
 
